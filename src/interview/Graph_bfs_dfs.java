@@ -27,7 +27,19 @@ class Graph_bfs_dfs{
        // g.BFS(1);
         //g.BFS(6);
         
-      //  g.DFS(1);
+       // g.DFS(1);
+        GraphDirectedUnweighted g3 = new GraphDirectedUnweighted(5);
+        g3.addEdge(0, 1);
+        g3.addEdge(1, 0);
+        g3.addEdge(0, 2);
+        g3.addEdge(2, 0);
+        g3.addEdge(2, 1);
+        g3.addEdge(1, 2);
+        g3.addEdge(0, 3);
+        g3.addEdge(3, 0);
+        g3.addEdge(3, 4);
+        g3.addEdge(4, 3);
+       // g3.findBridges();// this ca
         
         GraphDirectedUnweighted g2 = new GraphDirectedUnweighted(6);
         g2.addEdge(5, 2);
@@ -36,7 +48,10 @@ class Graph_bfs_dfs{
         g2.addEdge(4, 1);
         g2.addEdge(2, 3);
         g2.addEdge(3, 1);
-        g2.kahntop();
+        g2.addEdge(5, 4);
+        g2.addEdge(0, 3);
+        g2.allpathAtoB(5,3);
+     //   g2.kahntop();
        // g2.alltop();
         //System.out.println();
     }

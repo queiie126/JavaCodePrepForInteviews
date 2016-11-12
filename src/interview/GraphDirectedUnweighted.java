@@ -39,10 +39,13 @@ public class GraphDirectedUnweighted{
         
         System.out.println("\n---------- completed DFS(for whole graph) starting at "+s+" ----------");
     }
+    //this helper, with the counter can be used to determine if the graph is connected
+    private int counter = 0;
     private void DFShelper(int s) {
         if(visited[s]) return;
         visited[s] = true;
-        System.out.print(s+" ");
+       // System.out.print(s+" ");//print along uncomment to see DFS sequence
+        counter++;
         LinkedList<Integer> curr = adj[s];
         for(int  i: curr){
             DFShelper(i);
@@ -102,7 +105,67 @@ public class GraphDirectedUnweighted{
         //if it is possible to do topological sort then visitednum==V
         System.out.println("\n---------- completed topological sort ----------");
     }
+    
+    public void findBridges(){
+        counter = 0;
+        DFShelper(0);
+        if(counter!=V){
+            System.out.println("the graph is originally not connected");
+        }
+        int bridgecount = 0;
+        for(int currv = 0;currv<V;currv++){
+            for(int j=0;j<adj[currv].size();j++){
+                int currw = adj[currv].get(j);
+                if(currv<currw){
+                    counter = 0;
+                    adj[currv].remove(j);
+                    int iidx = 0;
+                    for(int i = 0;i<adj[currw].size();i++){
+                        if(adj[currw].get(i)==currv) iidx = i;
+                    }
+                    adj[currw].remove(iidx);
+                    visited = new boolean[V];
+                    DFShelper(0);
+                    if(counter!=V) {
+                        bridgecount++;
+                       // System.out.println("counter is:"+counter);
+                    }
+                    adj[currv].add(j, currw);
+                    adj[currw].add(iidx, currv);
+                }
+            }
+        }
+        System.out.println("bridgecount: "+bridgecount);
+        System.out.println("\n---------- completed find bridge ----------");
+        //for(){
+    }
+    private List<String> allpathresult;
+    private void findpathdfsHelper(int curr, int b, boolean[] currvisited, StringBuilder sb){
+        currvisited[curr] = true;
+        sb.append(curr);
+        if(curr==b){
+            allpathresult.add(sb.toString());
+        } else {
+            for(int j: adj[curr]){
+                if(!visited[j]){
+                    findpathdfsHelper(j, b, currvisited, sb);
+                }
+            }
+        }
+        sb.setLength(sb.length()-1);
+        currvisited[curr] = false;
+    }
+    public void allpathAtoB(int a, int b){
+        allpathresult = new ArrayList<>();
+        boolean[] currvisited = new boolean[V];
+        findpathdfsHelper(a, b, currvisited, new StringBuilder());
+        for(String path: allpathresult){
+            System.out.println(path);
+        }
+       // return allpathresult;
+    }
     /*
+     TODO
     public void alltop(){
         int[] count = new int[V];
         for(int i = 0;i<V;i++){
