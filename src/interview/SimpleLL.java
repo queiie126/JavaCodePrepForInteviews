@@ -22,10 +22,15 @@ class SimpleLL{
     void insert(LLNode n){//assuming n is a node and not a list.
         if(n==null) return;
         int v = n.val;
+
         if(isSorted){
-            if(head==null) head = n;
+            if(head==null) {
+                head = n;
+
+            }
             else if(head.val>=v){
                 addToFront(n);
+
             } else{
                 LLNode ptr = head;
                 LLNode nptr = head.next;
@@ -33,22 +38,56 @@ class SimpleLL{
                     if(ptr.val<=v&&nptr.val>=v){
                         ptr.next = n;
                         ptr.next.next = nptr;
+
                         break;
                     }
                     ptr = ptr.next;
                     nptr = nptr.next;
+
+                }
+                if(nptr==null){
+                    ptr.next = n;
                 }
             }
         } else {
             addToFront(n);
         }
     }
-    public void addToFront(LLNode n){
+    void addToFront(LLNode n){
     //    LLNode newhead = new LLNode(v);
         n.next = head;
         head = n;
     }
-
+    void reverseInGroup(int k){
+        head = reverseInGroup(k, head);
+        System.out.println("---------- reverse in group complete ----------");
+    }
+    private LLNode reverseInGroup(int k, LLNode currhead){
+        LLNode newhead = null;
+        LLNode ptr = currhead;
+        int origk = k;
+        while(ptr!=null&&k>0){
+            LLNode save = ptr.next;
+            ptr.next = newhead;
+            newhead = ptr;
+            ptr = save;
+            k--;
+        }
+        if(ptr!=null) currhead.next = reverseInGroup(origk, ptr);
+        return newhead;
+    }
+    void reverse(){
+        LLNode newhead = null;
+        LLNode ptr = head;
+        while(ptr!=null){
+            LLNode save = ptr.next;
+            ptr.next = newhead;
+            newhead = ptr;
+            ptr = save;
+        }
+        head = newhead;
+        System.out.println("---------- reverse complete ----------");
+    }
     void deleteFirstV(int v){
         if(head.val==v) head = head.next;
         else {

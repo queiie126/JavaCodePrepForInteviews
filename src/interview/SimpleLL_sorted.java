@@ -7,16 +7,17 @@ package interview;
 class SimpleLL_sorted{
     public static void main(String[] args){
         SimpleLL l = new SimpleLL(null, true);
-        l.insert(1);
+        for(int i = 0;i<10;i++){
+            l.insert(i*2);
+            if(i%3==0) l.insert(-i*2);
+        }
+       
+        //l.deleteFirstV(-4);
+        //l.deleteFirstV(1);
         l.p();
-        l.insert(-2);
+        l.reverse();
         l.p();
-        l.insert(-4);
-        l.p();
-        l.insert(10);
-        l.p();
-        l.deleteFirstV(-4);
-        l.deleteFirstV(1);
+        l.reverseInGroup(3);
         l.p();
     }
 }
